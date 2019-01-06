@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Gasto from './Gasto';
+import PropTypes from 'prop-types';
 
 class Listado extends Component {
 	render() {
@@ -17,6 +18,10 @@ class Listado extends Component {
 			</div>
 		)
 	}
+}
+
+Listado.propTypes = {
+	gastos: PropTypes.object.isRequired
 }
 
 export default Listado;

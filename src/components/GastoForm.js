@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class GastoForm extends Component {
 
@@ -44,7 +45,7 @@ class GastoForm extends Component {
 	}
 }
 
-GastoForm.PropTypes = {
+GastoForm.propTypes = {
     agregarGasto: PropTypes.func.isRequired
 }
 
