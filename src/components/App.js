@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import '../css/App.css';
 import Header from './Header';
 import GastoForm from './GastoForm';
+import Listado from './Listado';
+import ControlPresupuesto from './ControlPresupuesto';
+import {validarPresupuesto} from '../helper';
 
 class App extends Component {
 
@@ -11,6 +14,27 @@ class App extends Component {
       gastos: {}
   }
 
+  componentDidMount() {
+      this.obtenerPresupuesto();
+  }
+
+  obtenerPresupuesto = () => {
+      let presupuesto = prompt('Cual es el presupuesto?...');
+
+      let resultado = validarPresupuesto(presupuesto);
+      if (resultado) {
+        //ponerlo en el state
+        this.setState({
+            presupuesto: presupuesto,
+            restante: presupuesto
+        })    
+      } else {
+        this.obtenerPresupuesto();
+      }
+
+  }
+
+
   //Agregar nuevo gasto al state
   agregarGasto = gasto => {
       //Tomar una copia del state actual
@@ -19,9 +43,25 @@ class App extends Component {
       //agregar el gasto al objeto del state
       gastos[`gasto${Date.now()}`] = gasto;
 
+      //Resta presupuesto para saber cuanto llevamos
+      this.restarPresupuesto(gasto.cantidad);
+
       //ponerlo en el state
       this.setState({
           gastos
+      })
+  }
+
+  restarPresupuesto = cantidad => {
+      //Lee la cantidad a restar y lo combierte en numero
+      let restar = Number(cantidad);
+      //Trae una copia del state
+      let restante = this.state.restante;
+      //Hace operacion
+      restante-=restar;
+      //Agrega resultado a state
+      this.setState({
+        restante
       })
   }
 
@@ -43,7 +83,14 @@ class App extends Component {
                   </div>
 
                   <div className="one-half column">
-                  2
+                      <Listado 
+                          gastos = {this.state.gastos}
+                      />
+
+                      <ControlPresupuesto 
+                          presupuesto={this.state.presupuesto}
+                          restante={this.state.restante}
+                      />
                   </div>
               </div>
           </div>

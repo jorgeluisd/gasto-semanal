@@ -44,4 +44,8 @@ class GastoForm extends Component {
 	}
 }
 
+GastoForm.PropTypes = {
+    agregarGasto: PropTypes.func.isRequired
+}
+
 export default GastoForm;
